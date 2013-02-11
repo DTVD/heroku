@@ -3,21 +3,36 @@
   {% if session.logged_in %}
 
     <form action="{{ url_for('add_entry') }}" method=post class=add-entry>
-      <dl>
-        <dt>Name:
-        <dd><input type=text size=30 name=name>
-        <dt>Age:
-        <dd><input type=text size=30 name=age>
-        <dd><input type=submit value=Add>
-      </dl>
+      <fieldset>
+          Name:
+          <div class="control-group info">
+            <div class="controls">
+              <input type=text size=30 placeholder="name" name=name>
+              <span class="help-inline">Specify the name</span>
+            </div>
+          </div>
+          Age:
+          <div class="control-group info">
+            <div class="controls">
+              <input type=text size=30 placeholder="age" name=age>
+              <span class="help-inline">Specify the age</span>
+            </div>
+          </div>
+          <button type=submit class="btn btn-primary">Add</button>
+      </fieldset>
     </form>
 
     <form action="{{ url_for('del_entry') }}" method=post class=del-entry>
-      <dl>
-        <dt>Name:
-        <dd><input type=text size=30 name=name>
-        <dd><input type=submit value=Del>
-      </dl>
+      <fieldset>
+          Name:
+          <div class="control-group warning">
+            <div class="controls">
+              <input type=text placeholder="del name" size=30 name=name>
+              <span class="help-inline">Sure to delete !</span>
+            </div>
+          </div>
+          <button type=submit class="btn btn-danger">Del</button>
+      </fieldset>
     </form>
 
   {% endif %}

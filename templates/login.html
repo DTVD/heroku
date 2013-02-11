@@ -3,12 +3,15 @@
   <h2>Login</h2>
   {% if error %}<p class=error><strong>Error:</strong> {{ error }}{% endif %}
   <form action="{{ url_for('login') }}" method=post>
+    <fieldset>
     <dl>
       <dt>Username:
-      <dd><input type=text name=username>
+      <dd><input type=text placeholder="Uname" name=username>
       <dt>Password:
-      <dd><input type=password name=password>
-      <dd><input type=submit value=Login>
+      <dd><input type=password placeholder="pwd" name=password>
+      <dd><button type=submit class="btn btn-inverse">Login</button>
     </dl>
+    </fieldset>
   </form>
+
 {% endblock %}
