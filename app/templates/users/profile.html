@@ -1,0 +1,36 @@
+<!doctype html>
+{% extends "base.html" %}
+
+{% block metanav %}
+  <a href="{{ url_for('users.login') }}">Logout</a>
+{% endblock %}
+
+
+{% block content %}
+<table class="table table-hover">
+  <tr class="success">
+    <td>Name</td>
+    <td>{{user.name}}</td>
+  </tr>
+  <tr class="success">
+    <td>Email</td>
+    <td>{{user.email}}</td>
+  </tr>
+  <tr class="error">
+    <td>Password</td>
+    <td>******</td>
+  </tr>
+  <tr class="warning">
+    <td>Gender</td>
+    <td>{{user.gender}}</td>
+  </tr>
+  <tr class="info">
+    <td>Role</td>
+    <td>{{user.getRole()}}</td>
+  </tr>
+  <tr class="info">
+    <td>Status</td>
+    <td>{{user.getStatus()}}</td>
+  </tr>
+</table>
+{% endblock %}

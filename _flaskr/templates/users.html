@@ -1,0 +1,46 @@
+{% extends "layout.html" %}
+{% block body %}
+  {% if session.logged_in %}
+
+    <form action="{{ url_for('add_entry') }}" method=post class=add-entry>
+      <fieldset>
+          Name:
+          <div class="control-group info">
+            <div class="controls">
+              <input type=text size=30 placeholder="name" name=name>
+              <span class="help-inline">Specify the name</span>
+            </div>
+          </div>
+          Age:
+          <div class="control-group info">
+            <div class="controls">
+              <input type=text size=30 placeholder="age" name=age>
+              <span class="help-inline">Specify the age</span>
+            </div>
+          </div>
+          <button type=submit class="btn btn-primary">Add</button>
+      </fieldset>
+    </form>
+
+    <form action="{{ url_for('del_entry') }}" method=post class=del-entry>
+      <fieldset>
+          Name:
+          <div class="control-group warning">
+            <div class="controls">
+              <input type=text placeholder="del name" size=30 name=name>
+              <span class="help-inline">Sure to delete !</span>
+            </div>
+          </div>
+          <button type=submit class="btn btn-danger">Del</button>
+      </fieldset>
+    </form>
+
+  {% endif %}
+  <ul class=entries>
+  {% for entry in entries %}
+    <li><h2>{{ entry.name}}</h2>{{ entry.age|safe }}
+  {% else %}
+    <li><em>Unbelievable.  No entries here so far</em>
+  {% endfor %}
+  </ul>
+{% endblock %}
