@@ -9,7 +9,7 @@ http://flask.pocoo.org/docs/tutorial/
 .git/config
 ```
 [remote "all"]
-	url = git@heroku.com:intense-plains-3420.git
+        url = git@heroku.com:intense-plains-3420.git
         url = git@github.com:DTVD/heroku.git
 [remote "github"]
         url = git@github.com:DTVD/heroku.git
