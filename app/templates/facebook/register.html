@@ -1,0 +1,26 @@
+{% extends "base.html" %}
+{% block content %}
+  {% from "forms/macros.html" import render_field %}
+  <form class="form-horizontal" method="POST" action="." class="form">
+    <fieldset>
+      Your current Facebook ID: {{facebook.getFacebookID()}}
+      <legend>Facebook ID</legend>
+      <br>
+      <br>
+      {{ form.csrf_token }}
+      {{ render_field(form.facebook_id, class="input-xlarge") }}
+      <br>
+      <br>
+      <div class="control-group">
+        <label class="control-label"></label>
+        <div class="controls">
+          <button id = "register_button" type=submit class="btn btn-success">Register My Facebook Account</button>
+        </div>
+      </div>
+   </fieldset>
+  </form>
+{% endblock %}
+
+{% block metanav%}
+  <a href="{{ url_for('users.login') }}">Login</a>
+{% endblock %}

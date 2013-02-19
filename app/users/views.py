@@ -4,6 +4,7 @@ from werkzeug import check_password_hash, generate_password_hash
 from app import db
 from app.users.forms import RegisterForm, LoginForm
 from app.users.models import User
+from app.facebook.models import Facebook 
 from app.users.decorators import requires_login
 
 mod = Blueprint('users', __name__, url_prefix='/users')
@@ -11,7 +12,8 @@ mod = Blueprint('users', __name__, url_prefix='/users')
 @mod.route('/me/')
 @requires_login
 def home():
-  return render_template("users/profile.html", user=g.user)
+  return render_template("users/profile.html", user=g.user, facebook = g.facebook)
+#  return render_template("users/profile.html", user=g.user)
 
 @mod.before_request
 def before_request():
@@ -21,7 +23,8 @@ def before_request():
   g.user = None
   if 'user_id' in session:
     g.user = User.query.get(session['user_id']);
-
+    g.facebook = Facebook.query.filter_by(uid=session['user_id']).first()
+    
 @mod.route('/login/', methods=['GET', 'POST'])
 def login():
   """

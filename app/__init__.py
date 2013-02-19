@@ -10,6 +10,9 @@ db = SQLAlchemy(app)
 def not_found(error):
     return render_template('404.html'), 404
 
+from app.facebook.views import mod as facebookModule 
+app.register_blueprint(facebookModule)
+
 from app.users.views import mod as usersModule
 app.register_blueprint(usersModule)
 
