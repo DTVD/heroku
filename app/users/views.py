@@ -6,14 +6,15 @@ from app.users.forms import RegisterForm, LoginForm
 from app.users.models import User
 from app.facebook.models import Facebook 
 from app.users.decorators import requires_login
+#from app.tags.tag import before_request
 
 mod = Blueprint('users', __name__, url_prefix='/users')
 
 @mod.route('/me/')
 @requires_login
 def home():
-  return render_template("users/profile.html", user=g.user, facebook = g.facebook)
-#  return render_template("users/profile.html", user=g.user)
+  facebook = Facebook.query.filter_by(uid=g.user.id)
+  return render_template("users/profile.html", user=g.user, facebook = facebook)
 
 @mod.before_request
 def before_request():
@@ -23,7 +24,6 @@ def before_request():
   g.user = None
   if 'user_id' in session:
     g.user = User.query.get(session['user_id']);
-    g.facebook = Facebook.query.filter_by(uid=session['user_id']).first()
     
 @mod.route('/login/', methods=['GET', 'POST'])
 def login():

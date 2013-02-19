@@ -17,7 +17,6 @@ def before_request():
   g.user = None
   if 'user_id' in session:
     g.user = User.query.get(session['user_id']);
-    g.facebook = Facebook.query.filter_by(uid=session['user_id']).first()
 
 @requires_login
 @mod.route('/register/', methods=['GET', 'POST'])
@@ -33,4 +32,6 @@ def register():
 
     flash('Thanks for adding facebook account')
     return redirect(url_for('users.home'))
-  return render_template("facebook/register.html", form=form, facebook = g.facebook)
+
+  f = Facebook.query.filter_by(uid=g.user.id)
+  return render_template("facebook/register.html", form=form, facebook = f)

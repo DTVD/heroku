@@ -3,7 +3,14 @@
   {% from "forms/macros.html" import render_field %}
   <form class="form-horizontal" method="POST" action="." class="form">
     <fieldset>
-      Your current Facebook ID: {{facebook.getFacebookID()}}
+      {% for f in facebook %}
+      <table class="table table-hover">
+        <tr class="info">
+          <td>FaceBook ID</td>
+          <td>{{f.getFacebookID()}}</td>
+        </tr>
+      </table>
+      {% endfor %}
       <legend>Facebook ID</legend>
       <br>
       <br>

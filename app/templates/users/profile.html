@@ -34,12 +34,14 @@
   </tr>
 </table>
 
+{% for f in facebook %}
 <table class="table table-hover">
   <tr class="info">
     <td>FaceBook ID</td>
-    <td>{{facebook.getFacebookID()}}</td>
+    <td>{{f.getFacebookID()}}</td>
   </tr>
 </table>
+{% endfor %}
 
 <a href="{{ url_for('facebook.register') }}">Add a Facebook account</a>
 
