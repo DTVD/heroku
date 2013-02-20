@@ -1,4 +1,4 @@
-from flask import Flask, render_template
+from flask import Flask, render_template, g, session
 from flask.ext.sqlalchemy import SQLAlchemy
 
 app = Flask(__name__)
@@ -9,6 +9,13 @@ db = SQLAlchemy(app)
 @app.errorhandler(404)
 def not_found(error):
     return render_template('404.html'), 404
+
+from app.users.models import User
+@app.before_request
+def load_user():
+  g.user = None
+  if 'user_id' in session:
+    g.user = User.query.get(session['user_id']);
 
 from app.facebook.views import mod as facebookModule 
 app.register_blueprint(facebookModule)

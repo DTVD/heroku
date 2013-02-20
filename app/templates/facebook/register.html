@@ -3,15 +3,14 @@
   {% from "forms/macros.html" import render_field %}
   <form class="form-horizontal" method="POST" action="." class="form">
     <fieldset>
-      {% for f in facebook %}
       <table class="table table-hover">
+        {% for f in facebook %}
         <tr class="info">
           <td>FaceBook ID</td>
           <td>{{f.getFacebookID()}}</td>
         </tr>
+        {% endfor %}
       </table>
-      {% endfor %}
-      <legend>Facebook ID</legend>
       <br>
       <br>
       {{ form.csrf_token }}

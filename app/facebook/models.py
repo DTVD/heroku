@@ -5,7 +5,7 @@ class Facebook(db.Model):
     __tablename__ = 'facebook'
     id = db.Column(db.Integer, primary_key=True)
     facebook_id= db.Column(db.String(50), unique=True)
-    uid = db.Column(db.Integer)
+    uid = db.Column(db.Integer, db.ForeignKey('user.id'))
 
     def __init__(self, facebook_id=None, uid=None):
       self.facebook_id = facebook_id 

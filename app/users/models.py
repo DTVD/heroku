@@ -3,7 +3,7 @@ from app.users import constants as CONST
 
 class User(db.Model):
 
-    __tablename__ = 'users'
+    __tablename__ = 'user'
     id = db.Column(db.Integer, primary_key=True)
     name = db.Column(db.String(50), unique=True)
     email = db.Column(db.String(120), unique=True)
@@ -11,6 +11,7 @@ class User(db.Model):
     gender = db.Column(db.String(10))
     role = db.Column(db.SmallInteger, default=CONST.USER)
     status = db.Column(db.SmallInteger, default=CONST.NEW)
+    facebook = db.relationship('Facebook', backref='user', lazy='dynamic')
 
     def __init__(self, name=None, email=None, password=None, gender=None):
       self.name = name

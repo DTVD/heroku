@@ -9,15 +9,6 @@ from app.users.decorators import requires_login
 
 mod = Blueprint('facebook', __name__, url_prefix='/facebook')
 
-@mod.before_request
-def before_request():
-  """
-  pull user's profile from the database before every request are treated
-  """
-  g.user = None
-  if 'user_id' in session:
-    g.user = User.query.get(session['user_id']);
-
 @requires_login
 @mod.route('/register/', methods=['GET', 'POST'])
 def register():
