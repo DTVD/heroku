@@ -35,6 +35,12 @@
 </table>
 
 <table class="table table-hover">
+  <thead>
+    <tr>
+      <th style="width: 34%"></th>
+      <th style="width: 66%"></th>
+    </tr>
+  </thead>
   {% for f in facebook %}
   <tr class="info">
     <td>FaceBook ID</td>
@@ -44,6 +50,12 @@
 </table>
 
 <table class="table table-hover">
+  <thead>
+    <tr>
+      <th style="width: 34%"></th>
+      <th style="width: 66%"></th>
+    </tr>
+  </thead>
   {% for t in twitter%}
   <tr class="info">
     <td>Twitter ID</td>
@@ -52,6 +64,8 @@
   {% endfor %}
 </table>
 
+<br>
+<br>
 <a href="{{ url_for('facebook.register') }}">Add a Facebook account</a>
 <br>
 <a href="{{ url_for('twitter.register') }}">Add a Twitter account</a>

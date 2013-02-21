@@ -23,7 +23,7 @@ def register():
 
   form = RegisterForm(request.form)
   if form.validate_on_submit():
-    twitter = Twitter(form.twitter_id.data, session['user_id'])
+    twitter = Twitter(form.twitter_id.data, g.user.id)
     db.session.add(twitter)
     db.session.commit()
 
@@ -49,6 +49,14 @@ def verify():
     print 'Error! Failed to get access token.'
 
   api = tweepy.API(auth)
-  api.update_status('tweepy + oauth! via vunhatminh.com')
+  t = Twitter.query.filter_by(uid=g.user.id).first()
+  if t:
+    t.twitter_id = auth.get_username()
+    t.access_token_key = auth.access_token.key 
+    t.access_token_secret = auth.access_token.secret
+  else:
+    twitter = Twitter(auth.get_username(), g.user.id)
+    db.session.add(twitter)
+  db.session.commit()
   return redirect(url_for('twitter.register'))
 
