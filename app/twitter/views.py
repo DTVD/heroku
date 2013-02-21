@@ -17,8 +17,9 @@ def register():
   Twitter Registration 
   """
 
-  auth = tweepy.OAuthHandler(CONSTANTS.CONSUMER_KEY, CONSTANTS.CONSUMER_SECRET)
+  auth = tweepy.OAuthHandler(CONSTANTS.CONSUMER_KEY, CONSTANTS.CONSUMER_SECRET, CONSTANTS.CALLBACK_URL)
   auth_url = auth.get_authorization_url()
+  session['twitter_token']=(auth.request_token.key,auth.request_token.secret)
 
   form = RegisterForm(request.form)
   if form.validate_on_submit():
@@ -31,3 +32,23 @@ def register():
 
   t = Twitter.query.filter_by(uid=g.user.id)
   return render_template("twitter/register.html", form=form, twitter = t, oauth = auth_url)
+
+
+@requires_login
+@mod.route('/verify/', methods=['GET', 'POST'])
+def verify():
+  verifier= request.args['oauth_verifier']
+  auth = tweepy.OAuthHandler(CONSTANTS.CONSUMER_KEY, CONSTANTS.CONSUMER_SECRET)
+  token = session['twitter_token']
+  del session['twitter_token']
+  auth.set_request_token(token[0], token[1])
+
+  try:
+    auth.get_access_token(verifier)
+  except tweepy.TweepError:
+    print 'Error! Failed to get access token.'
+
+  api = tweepy.API(auth)
+  api.update_status('tweepy + oauth! via vunhatminh.com')
+  return redirect(url_for('twitter.register'))
+
