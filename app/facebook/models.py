@@ -12,7 +12,7 @@ class Facebook(db.Model):
       self.uid = uid 
 
     def getFacebookID(self):
-      return self.facebook_id.strip()
+      return self.facebook_id
 
     def getUserID(self):
       return self.uid

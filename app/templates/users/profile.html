@@ -43,6 +43,17 @@
   {% endfor %}
 </table>
 
+<table class="table table-hover">
+  {% for t in twitter%}
+  <tr class="info">
+    <td>Twitter ID</td>
+    <td>{{t.getTwitterID()}}</td>
+  </tr>
+  {% endfor %}
+</table>
+
 <a href="{{ url_for('facebook.register') }}">Add a Facebook account</a>
+<br>
+<a href="{{ url_for('twitter.register') }}">Add a Twitter account</a>
 
 {% endblock %}

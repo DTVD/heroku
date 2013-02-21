@@ -5,6 +5,7 @@ from app import db
 from app.users.forms import RegisterForm, LoginForm
 from app.users.models import User
 from app.facebook.models import Facebook 
+from app.twitter.models import Twitter 
 from app.users.decorators import requires_login
 
 mod = Blueprint('users', __name__, url_prefix='/users')
@@ -13,8 +14,9 @@ mod = Blueprint('users', __name__, url_prefix='/users')
 @mod.route('/me/')
 @requires_login
 def home():
-  facebook = Facebook.query.filter_by(uid=g.user.id)
-  return render_template("users/profile.html", user=g.user, facebook = facebook)
+  f = Facebook.query.filter_by(uid=g.user.id)
+  t = Twitter.query.filter_by(uid=g.user.id)
+  return render_template("users/profile.html", user=g.user, facebook = f, twitter = t)
 
    
 @mod.route('/login/', methods=['GET', 'POST'])

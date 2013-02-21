@@ -4,23 +4,24 @@
   <form class="form-horizontal" method="POST" action="." class="form">
     <fieldset>
       <table class="table table-hover">
-        {% for f in facebook %}
+        {% for t in twitter%}
         <tr class="info">
-          <td>FaceBook ID</td>
-          <td>{{f.getFacebookID()}}</td>
+          <td>Twitter ID</td>
+          <td>{{t.getTwitterID()}}</td>
         </tr>
         {% endfor %}
       </table>
       <br>
       <br>
       {{ form.csrf_token }}
-      {{ render_field(form.facebook_id, class="input-xlarge") }}
+      {{ render_field(form.twitter_id, class="input-xlarge") }}
       <br>
+      <a href="{{ oauth }}">Or sign you in with twitter</a>
       <br>
       <div class="control-group">
         <label class="control-label"></label>
         <div class="controls">
-          <button id = "register_button" type=submit class="btn btn-success">Register My Facebook Account</button>
+          <button id = "register_button" type=submit class="btn btn-success">Register My Twitter Account</button>
         </div>
       </div>
    </fieldset>

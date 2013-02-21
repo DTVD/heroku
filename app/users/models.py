@@ -12,6 +12,7 @@ class User(db.Model):
     role = db.Column(db.SmallInteger, default=CONST.USER)
     status = db.Column(db.SmallInteger, default=CONST.NEW)
     facebook = db.relationship('Facebook', backref='user', lazy='dynamic')
+    twitter = db.relationship('Twitter', backref='user', lazy='dynamic')
 
     def __init__(self, name=None, email=None, password=None, gender=None):
       self.name = name

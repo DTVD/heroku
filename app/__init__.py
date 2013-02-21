@@ -17,6 +17,9 @@ def load_user():
   if 'user_id' in session:
     g.user = User.query.get(session['user_id']);
 
+from app.twitter.views import mod as twitterModule 
+app.register_blueprint(twitterModule)
+
 from app.facebook.views import mod as facebookModule 
 app.register_blueprint(facebookModule)
 
