@@ -12,8 +12,12 @@
         </thead>
         {% for t in twitter%}
         <tr class="info">
-          <td>Twitter ID</td>
-          <td>{{t.getTwitterID()}}</td>
+          <td style="vertical-align: initial">Twitter ID</td>
+          {% if api %}
+          <td style="vertical-align: initial"><img src="{{api.me().profile_image_url}}">     {{t.getTwitterID()}}</td>
+          {% else %}
+          <td style="vertical-align: initial">{{t.getTwitterID()}}</td>
+          {% endif %}
         </tr>
         {% endfor %}
       </table>
@@ -22,16 +26,18 @@
       {{ form.csrf_token }}
       {{ render_field(form.twitter_id, class="input-xlarge") }}
       <br>
-      <a href="{{ oauth }}">Or sign you in with twitter</a>
       <br>
       <div class="control-group">
         <label class="control-label"></label>
         <div class="controls">
           <button id = "register_button" type=submit class="btn btn-success">Register My Twitter Account</button>
+          
+          <a href="{{ oauth }}"><button id = "oauth_button" class="btn btn-primary">Sign in with Twitter Account</button></a>
         </div>
-      </div>
+     </div>
    </fieldset>
   </form>
+
 {% endblock %}
 
 {% block metanav%}

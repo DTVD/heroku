@@ -17,9 +17,25 @@ def register():
   Twitter Registration 
   """
 
-  auth = tweepy.OAuthHandler(CONSTANTS.CONSUMER_KEY, CONSTANTS.CONSUMER_SECRET, CONSTANTS.CALLBACK_URL)
-  auth_url = auth.get_authorization_url()
-  session['twitter_token']=(auth.request_token.key,auth.request_token.secret)
+  #Query Twitter ID for User
+  g.twitter = None
+  t = Twitter.query.filter_by(uid=g.user.id)
+  if t.first():
+    g.twitter = t.first()
+
+  auth_url = ''
+  api = None
+  #Generate authen URL if User not add TwitterID or get access token if he already have
+  if not g.twitter:
+    auth = tweepy.OAuthHandler(CONSTANTS.CONSUMER_KEY, CONSTANTS.CONSUMER_SECRET, CONSTANTS.CALLBACK_URL)
+    auth_url = auth.get_authorization_url()
+    session['twitter_request_token']=(auth.request_token.key,auth.request_token.secret)
+  else:
+    atk = g.twitter.access_token_key
+    ats = g.twitter.access_token_secret
+    auth = tweepy.OAuthHandler(CONSTANTS.CONSUMER_KEY, CONSTANTS.CONSUMER_SECRET)
+    auth.set_access_token(atk,ats)
+    api = tweepy.API(auth_handler=auth)
 
   form = RegisterForm(request.form)
   if form.validate_on_submit():
@@ -30,8 +46,7 @@ def register():
     flash('Thanks for adding twitter account')
     return redirect(url_for('users.home'))
 
-  t = Twitter.query.filter_by(uid=g.user.id)
-  return render_template("twitter/register.html", form=form, twitter = t, oauth = auth_url)
+  return render_template("twitter/register.html", form=form, twitter = t, oauth = auth_url, api = api)
 
 
 @requires_login
@@ -39,8 +54,8 @@ def register():
 def verify():
   verifier= request.args['oauth_verifier']
   auth = tweepy.OAuthHandler(CONSTANTS.CONSUMER_KEY, CONSTANTS.CONSUMER_SECRET)
-  token = session['twitter_token']
-  del session['twitter_token']
+  token = session['twitter_request_token']
+  del session['twitter_request_token']
   auth.set_request_token(token[0], token[1])
 
   try:
@@ -56,6 +71,8 @@ def verify():
     t.access_token_secret = auth.access_token.secret
   else:
     twitter = Twitter(auth.get_username(), g.user.id)
+    twitter.access_token_key = auth.access_token.key 
+    twitter.access_token_secret = auth.access_token.secret
     db.session.add(twitter)
   db.session.commit()
   return redirect(url_for('twitter.register'))
