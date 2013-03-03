@@ -10,12 +10,14 @@
             <th style="width: 82%"></th>
           </tr>
         </thead>
+        {% if facebook %}
         {% for f in facebook %}
         <tr class="info">
-          <td>FaceBook ID</td>
-          <td>{{f.getFacebookID()}}</td>
+          <td style="vertical-align: initial">Facebook ID</td>
+          <td style="vertical-align: initial"><img src="http://graph.facebook.com/{{f.getFacebookID()}}/picture">     {{f.getFacebookID()}}</td>
         </tr>
         {% endfor %}
+        {% endif %}
       </table>
       <br>
       <br>
@@ -31,8 +33,19 @@
       </div>
    </fieldset>
   </form>
+
+  <br>
+  <div class="control-group">
+    <label class="control-label"></label>
+    <div class="controls">
+      <a href="{{ url_for('facebook.authen') }}"><button id = "oauth_button" class="btn btn-primary">Sign in with Facebook Account</button></a>
+    </div>
+  </div>
+
 {% endblock %}
 
 {% block metanav%}
+  <a href="{{ url_for('users.home') }}">Profile</a>  
+  &nbsp;&nbsp;&nbsp; 
   <a href="{{ url_for('users.logout') }}">Logout</a>
 {% endblock %}

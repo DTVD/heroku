@@ -31,15 +31,23 @@
         <label class="control-label"></label>
         <div class="controls">
           <button id = "register_button" type=submit class="btn btn-success">Register My Twitter Account</button>
-          
-          <a href="{{ oauth }}"><button id = "oauth_button" class="btn btn-primary">Sign in with Twitter Account</button></a>
         </div>
      </div>
    </fieldset>
   </form>
 
+  <br>
+  <div class="control-group">
+    <label class="control-label"></label>
+    <div class="controls">
+      <a href="{{ oauth }}"><button id = "oauth_button" class="btn btn-primary">Sign in with Twitter Account</button></a>
+    </div>
+  </div>
+
 {% endblock %}
 
 {% block metanav%}
+  <a href="{{ url_for('users.home') }}">Profile</a>  
+  &nbsp;&nbsp;&nbsp; 
   <a href="{{ url_for('users.logout') }}">Logout</a>
 {% endblock %}
