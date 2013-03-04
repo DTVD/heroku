@@ -1,4 +1,4 @@
-from flask import Flask, render_template, g, session
+from flask import Flask, flash, redirect, url_for, render_template, g, session
 from flask.ext.sqlalchemy import SQLAlchemy
 
 app = Flask(__name__)
@@ -16,6 +16,12 @@ def load_user():
   g.user = None
   if 'user_id' in session:
     g.user = User.query.get(session['user_id']);
+
+
+@app.route('/')
+def portal():
+  flash('Welcome to vunhatminh.com')
+  return redirect(url_for('users.login'))
 
 from app.twitter.views import mod as twitterModule 
 app.register_blueprint(twitterModule)

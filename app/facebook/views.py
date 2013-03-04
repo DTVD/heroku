@@ -10,7 +10,7 @@ from flask_oauth import OAuth
 from facepy import GraphAPI
 
 mod = Blueprint('facebook', __name__, url_prefix='/facebook')
-test = None
+graph = None
 oauth = OAuth()
 
 facebook = oauth.remote_app('facebook',
@@ -37,7 +37,8 @@ def register():
     g.facebook= f.first()
   if g.facebook:
     graph = GraphAPI(g.facebook.access_token)
-
+  else:
+    graph = None
   """
   Registration form 
   """
@@ -50,7 +51,7 @@ def register():
     flash('Thanks for adding facebook account')
     return redirect(url_for('users.home'))
 
-  return render_template("facebook/register.html", form=form, facebook = f)
+  return render_template("facebook/register.html", form=form, facebook = f, graph = graph)
 
 @mod.route('/authen/')
 def authen():

@@ -14,7 +14,12 @@
         <tr class="info">
           <td style="vertical-align: initial">Twitter ID</td>
           {% if api %}
-          <td style="vertical-align: initial"><img src="{{api.me().profile_image_url}}">     {{t.getTwitterID()}}</td>
+          <td style="vertical-align: initial">
+            <img src="{{api.me().profile_image_url}}">
+            {{t.getTwitterID()}} 
+            &nbsp;&nbsp;&nbsp;
+            "{{api.me().status.text}}" 
+          </td>
           {% else %}
           <td style="vertical-align: initial">{{t.getTwitterID()}}</td>
           {% endif %}
@@ -25,12 +30,10 @@
       <br>
       {{ form.csrf_token }}
       {{ render_field(form.twitter_id, class="input-xlarge") }}
-      <br>
-      <br>
       <div class="control-group">
         <label class="control-label"></label>
         <div class="controls">
-          <button id = "register_button" type=submit class="btn btn-success">Register My Twitter Account</button>
+          <button id = "register_button" type=submit class="btn btn-success">Just memo</button>
         </div>
      </div>
    </fieldset>

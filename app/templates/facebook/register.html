@@ -12,10 +12,19 @@
         </thead>
         {% if facebook %}
         {% for f in facebook %}
+        {% if graph %}
         <tr class="info">
           <td style="vertical-align: initial">Facebook ID</td>
-          <td style="vertical-align: initial"><img src="http://graph.facebook.com/{{f.getFacebookID()}}/picture">     {{f.getFacebookID()}}</td>
+          <td style="vertical-align: initial">
+            <img src="http://graph.facebook.com/{{f.getFacebookID()}}/picture">
+            {{f.getFacebookID()}}
+            &nbsp;&nbsp;&nbsp;
+            "{{graph.get('me/feed')['data'][0]['story']}}" 
+          </td>
+          {% else %}
+          <td style="vertical-align: initial">{{f.getFacebookID()}}</td>
         </tr>
+        {% endif %}
         {% endfor %}
         {% endif %}
       </table>
@@ -23,12 +32,10 @@
       <br>
       {{ form.csrf_token }}
       {{ render_field(form.facebook_id, class="input-xlarge") }}
-      <br>
-      <br>
       <div class="control-group">
         <label class="control-label"></label>
         <div class="controls">
-          <button id = "register_button" type=submit class="btn btn-success">Register My Facebook Account</button>
+          <button id = "register_button" type=submit class="btn btn-success">Just memo</button>
         </div>
       </div>
    </fieldset>
