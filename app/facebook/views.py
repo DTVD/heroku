@@ -7,9 +7,10 @@ from app.facebook.models import Facebook
 from app.users.decorators import requires_login
 from app.facebook import constants as CONSTANTS 
 from flask_oauth import OAuth
+from facepy import GraphAPI
 
 mod = Blueprint('facebook', __name__, url_prefix='/facebook')
-
+test = None
 oauth = OAuth()
 
 facebook = oauth.remote_app('facebook',
@@ -27,16 +28,19 @@ facebook = oauth.remote_app('facebook',
 @mod.route('/register/', methods=['GET', 'POST'])
 def register():
   """
-  Facebook Registration 
+  Query from DB and create g.facebook 
+  If we have token here we will have the 'graph God' and can do anything
   """
-  #Query Facebook ID for User
   g.facebook= None
   f = Facebook.query.filter_by(uid=g.user.id)
   if f.first():
     g.facebook= f.first()
   if g.facebook:
-    session['oauth_token'] = g.facebook.access_token
+    graph = GraphAPI(g.facebook.access_token)
 
+  """
+  Registration form 
+  """
   form = RegisterForm(request.form)
   if form.validate_on_submit():
     facebook = Facebook(form.facebook_id.data, session['user_id'])
@@ -65,10 +69,11 @@ def facebook_authorized(resp):
     session['oauth_token'] = (resp['access_token'], '')
     f = Facebook.query.filter_by(uid=g.user.id).first()
     if f:
-      f.facebook_id = facebook.get('/me').data[username]
+      f.facebook_id = facebook.get('/me').data['username']
       f.access_token = session['oauth_token'] 
     else:
       f= Facebook(facebook.get('/me').data['username'], g.user.id)
+      f.access_token = session['oauth_token'][0] 
       db.session.add(f)
     db.session.commit()
     return redirect(url_for('facebook.register'))
@@ -76,5 +81,4 @@ def facebook_authorized(resp):
 @facebook.tokengetter
 def get_facebook_oauth_token():
     return session.get('oauth_token')
-
 

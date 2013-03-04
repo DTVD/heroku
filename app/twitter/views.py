@@ -14,10 +14,9 @@ mod = Blueprint('twitter', __name__, url_prefix='/twitter')
 @mod.route('/register/', methods=['GET', 'POST'])
 def register():
   """
-  Twitter Registration 
+  Query from DB and create g.twitter 
+  If we have token here we will have the 'api' and can do anything
   """
-
-  #Query Twitter ID for User
   g.twitter = None
   t = Twitter.query.filter_by(uid=g.user.id)
   if t.first():
@@ -37,6 +36,9 @@ def register():
     auth.set_access_token(atk,ats)
     api = tweepy.API(auth_handler=auth)
 
+  """
+  Registration form 
+  """
   form = RegisterForm(request.form)
   if form.validate_on_submit():
     twitter = Twitter(form.twitter_id.data, g.user.id)
