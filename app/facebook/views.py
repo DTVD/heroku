@@ -70,7 +70,7 @@ def facebook_authorized(resp):
     f = Facebook.query.filter_by(uid=g.user.id).first()
     if f:
       f.facebook_id = facebook.get('/me').data['username']
-      f.access_token = session['oauth_token'] 
+      f.access_token = session['oauth_token'][0]
     else:
       f= Facebook(facebook.get('/me').data['username'], g.user.id)
       f.access_token = session['oauth_token'][0] 

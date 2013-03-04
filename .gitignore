@@ -1,4 +1,3 @@
 venv
 *.pyc
 .*swp
-app.db
